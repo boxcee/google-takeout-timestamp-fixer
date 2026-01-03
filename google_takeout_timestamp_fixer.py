@@ -9,6 +9,10 @@ def modify_file_timestamp(json_file, photo_file):
     with open(json_file, "r") as f:
         data = json.load(f)
 
+    if "photoTakenTime" not in data:
+        print(f"Warning: 'photoTakenTime' for {photo_file} not found in {json_file}!")
+        return
+
     # Extract the photoTakenTime (Unix timestamp)
     photo_taken_timestamp = int(data["photoTakenTime"]["timestamp"])
 
@@ -41,7 +45,20 @@ def process_directory(directory):
                 data = json.load(f)
                 title = data.get("title")
 
-                if title:
+                if title and isinstance(title, list):
+                    for subtitle in title:
+                        # Find the corresponding photo/video file in the directory
+                        photo_file_path = os.path.join(directory, subtitle)
+
+                        # Check if the photo/video file exists
+                        if os.path.exists(photo_file_path):
+                            # Modify the timestamp of the corresponding file
+                            modify_file_timestamp(json_file_path, photo_file_path)
+                        else:
+                            print(
+                                f"Warning: The file {subtitle} does not exist in the directory."
+                            )
+                elif title:
                     # Find the corresponding photo/video file in the directory
                     photo_file_path = os.path.join(directory, title)
 

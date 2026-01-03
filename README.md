@@ -31,10 +31,9 @@ This is especially useful for users who want to keep their photos and videos org
 ### Steps:
 
 1. Download the `google-takeout-timestamp-fixer` repository.
-2. Extract your Google Takeout folder. Ensure it contains the .json files and their corresponding photo/video files organized together.
-3. Open a command prompt or terminal.
-4. Navigate to the folder where the script is located.
-5. Run the script with one of the following commands:
+2. Open a command prompt or terminal.
+3. Navigate to the folder where the script is located.
+4. Run the script with one of the following commands:
 
 **Option A: Process the current directory (default)**
 ```bash
