@@ -31,36 +31,43 @@ This is especially useful for users who want to keep their photos and videos org
 ### Steps:
 
 1. Download the `google-takeout-timestamp-fixer` repository.
-2. Place the extracted Google Takeout folder in the same directory as the script.
-3. Update the `directory_path` variable in the script to point to your Google Takeout folder:
-   - Open the script file (`date_modifier_script.py`) in any text editor.
-   - Update the `directory_path` variable with the path to your Google Takeout folder.
+2. Extract your Google Takeout folder. Ensure it contains the .json files and their corresponding photo/video files organized together.
+3. Open a command prompt or terminal.
+4. Navigate to the folder where the script is located.
+5. Run the script with one of the following commands:
 
-Example:
-
-```python
-directory_path = r"C:\Users\YourName\Google Photos Downloads"
-```
-
-4. Open a command prompt or terminal.
-5. Navigate to the folder where the script is located.
-6. Run the script with the following command:
-
-```python
+**Option A: Process the current directory (default)**
+```bash
 python google_takeout_timestamp_fixer.py
 ```
 
-The script will process all .json files in the specified directory, extract the "photo taken time" from the JSON, and update the corresponding photo/video file with the correct timestamp.
+**Option B: Process a specific directory**
+```bash
+python google_takeout_timestamp_fixer.py /path/to/Google/Takeout
+```
+
+Example:
+```bash
+python google_takeout_timestamp_fixer.py "/Users/YourName/Downloads/Takeout/Google Photos"
+```
+
+The script will:
+- Process all .json files in the specified directory and its subdirectories (recursive)
+- Extract the "photo taken time" from each JSON file
+- Update the corresponding photo/video file with the correct timestamp
 
 ### Additional Information:
 
-- The script will look for .json files and their associated photo/video files (same name, .jpg, .mp4, etc.).
-- The photoTakenTime in the JSON file is used to update the file's last modified timestamp.
+- The script uses **recursive processing**, so it will look for .json files in the specified directory and all subdirectories.
+- The script looks for .json files and their associated photo/video files (same name, with extensions like .jpg, .mp4, etc.).
+- The photoTakenTime in the JSON file is used to update the file's last modified and access timestamp.
+- If no directory is specified, the script defaults to the current working directory.
 
 ### Troubleshooting:
 
-- Ensure your Google Takeout files are organized with .json files and their corresponding media files in the same folder.
-- If you encounter any issues with file paths, make sure the directory_path variable is set correctly.
+- Ensure your Google Takeout files are organized with .json files and their corresponding media files in the same directory.
+- If you encounter any issues with file paths, double-check that the path you're providing is correct and that the directory exists.
+- If a media file is not found for a JSON metadata file, the script will display a warning but continue processing other files.
 
 ### License:
 

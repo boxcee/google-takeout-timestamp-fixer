@@ -1,9 +1,7 @@
 import os
 import json
+import sys
 from datetime import datetime, timezone
-
-# Example Usage: Please Enter Your File Directory Here!
-directory_path = r"E:\Google Photos Downloads\takeout-20250216T024834Z-002\Takeout\Google Photos\Photos from 2025"
 
 
 def modify_file_timestamp(json_file, photo_file):
@@ -28,9 +26,15 @@ def modify_file_timestamp(json_file, photo_file):
 def process_directory(directory):
     # Loop through all files in the directory
     for filename in os.listdir(directory):
+        file_path = os.path.join(directory, filename)
+        
+        # Recursively process subdirectories
+        if os.path.isdir(file_path):
+            process_directory(file_path)
+        
         # If the file is a JSON file
-        if filename.endswith(".json"):
-            json_file_path = os.path.join(directory, filename)
+        elif filename.endswith(".json"):
+            json_file_path = file_path
 
             # Load the JSON data and get the corresponding photo/video file title
             with open(json_file_path, "r") as f:
@@ -53,4 +57,15 @@ def process_directory(directory):
                     print(f"Warning: No 'title' found in JSON file {filename}.")
 
 
-process_directory(directory_path)
+if __name__ == "__main__":
+    # Use provided directory path or default to current directory
+    directory_path = sys.argv[1] if len(sys.argv) > 1 else os.getcwd()
+    
+    # Validate that the directory exists
+    if not os.path.isdir(directory_path):
+        print(f"Error: Directory '{directory_path}' does not exist.")
+        sys.exit(1)
+    
+    print(f"Processing directory: {directory_path}")
+    process_directory(directory_path)
+    print("Done!")
